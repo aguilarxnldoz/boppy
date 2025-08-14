@@ -3,6 +3,7 @@
 import {useState, useEffect} from "react";
 
 export default function UploadMP3() {
+    const [step, setStep] = useState<number>(1);
     const [file, setFile] = useState<File | null>(null);
     const [audioURL, setAudioURL] = useState<string | undefined>(undefined);
 
@@ -18,29 +19,36 @@ export default function UploadMP3() {
 
     return (
         <>
-            <section
-                id="upload-mp3-section"
-                className="border-2 border-dashed border-neutral-400 rounded-2xl p-15 mx-15"
-            >
-                <h3>Upload your mp3 files here.</h3>
-                <form className="my-3">
-                    <input
-                        type="file"
-                        accept=".mp3"
-                        className="border-white border-2 rounded-2xl p-5"
-                        onChange={(event) => {
-                            const selectedFile = event.target.files && event.target.files[0] ? event.target.files[0] : null;
-                            setFile(selectedFile);
-                            console.log(selectedFile);
-                        }}
-                    ></input>
-                </form>
-            </section>
-            {file && (
-                <audio
-                    src={audioURL}
-                    controls
-                />
+            {step === 1 && (
+                <section
+                    id="upload-mp3-section"
+                    className="border-2 border-dashed border-neutral-400 rounded-2xl p-15 mx-15"
+                >
+                    <h3>Upload your mp3 files here.</h3>
+                    <form className="my-3">
+                        <input
+                            type="file"
+                            accept=".mp3"
+                            className="border-white border-2 rounded-2xl p-5"
+                            onChange={(event) => {
+                                const selectedFile = event.target.files && event.target.files[0] ? event.target.files[0] : null;
+                                setFile(selectedFile);
+                                console.log(selectedFile);
+                                setStep(2);
+                            }}
+                        ></input>
+                    </form>
+                </section>
+            )}
+
+            {step === 2 && file && (
+                <>
+                    <h2>{file.name}</h2>
+                    <audio
+                        src={audioURL}
+                        controls
+                    />
+                </>
             )}
         </>
     );

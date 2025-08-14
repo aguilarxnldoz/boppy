@@ -15,7 +15,6 @@ Boppy is a web application for visualizing audio files, built with React and Vit
 
 -   Upload MP3 files
 -   Visualize audio waveforms
--   Responsive design
 
 ---
 
