@@ -1,7 +1,7 @@
 export default function Header() {
     return (
         <>
-            <header className="w-full">
+            <header className="w-full absolute z-10">
                 <div
                     id="header-headings"
                     className="w-full flex flex-col gap-1 m-15"
