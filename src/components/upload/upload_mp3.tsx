@@ -10,7 +10,6 @@ export default function UploadMP3() {
         const selectedFile: File | null = event.target.files && event.target.files[0] ? event.target.files[0] : null;
         if (selectedFile === null) console.error("File could not be uploaded jitt!");
         setFile(selectedFile);
-        console.log(selectedFile);
         setStep(2);
     };
 

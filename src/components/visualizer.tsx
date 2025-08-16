@@ -10,18 +10,7 @@ export default function Visualizer({mp3File}: {mp3File: File}) {
             // audio url to insert into the html audio element
             const url = URL.createObjectURL(mp3File);
             setAudioURL(url);
-
-            // turn the mp3 file into an arrayBuffer
-            const reader: FileReader = new FileReader();
-
-            reader.onload = function (event: ProgressEvent<FileReader>) {
-                console.log(event);
-            };
-
-            reader.readAsArrayBuffer(mp3File);
-
-            audioContext.current = new (window.AudioContext || window.webkitAudioContext)();
-
+            // audioContext.current = new (window.AudioContext || window.webkitAudioContext)();
             return () => URL.revokeObjectURL(url);
         } else {
             setAudioURL(undefined);
@@ -37,18 +26,13 @@ export default function Visualizer({mp3File}: {mp3File: File}) {
                 <h3 className="ml-5">Currently playing {mp3File.name.slice(0, -4)}</h3>
                 <div
                     id="visual-displays"
-                    className="w-auto"
+                    className="w-full h-full absolute"
                 >
                     <Canvas
                         mp3File={mp3File}
                         audioContext={audioContext}
                         audioURL={audioURL}
                     />
-                    <audio
-                        className="w-[75%] justify-self-center"
-                        src={audioURL}
-                        controls
-                    ></audio>
                 </div>
             </section>
         </>
