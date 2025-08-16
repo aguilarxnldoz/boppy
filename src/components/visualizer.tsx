@@ -1,9 +1,8 @@
-import {useState, useEffect, useRef} from "react";
+import {useState, useEffect} from "react";
 import Canvas from "./canvas";
 
 export default function Visualizer({mp3File}: {mp3File: File}) {
     const [audioURL, setAudioURL] = useState<string | undefined>(undefined);
-    const audioContext = useRef<AudioContext | null>(null);
 
     useEffect(() => {
         if (mp3File) {
@@ -30,7 +29,6 @@ export default function Visualizer({mp3File}: {mp3File: File}) {
                 >
                     <Canvas
                         mp3File={mp3File}
-                        audioContext={audioContext}
                         audioURL={audioURL}
                     />
                 </div>

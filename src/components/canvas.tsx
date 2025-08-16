@@ -47,7 +47,7 @@ export default function Canvas({mp3File, audioURL}: {mp3File: File; audioURL: st
                 audioSource?.disconnect();
                 audioAnalyzer?.disconnect();
             } catch (e) {
-                console.error("fuck you bruh", e);
+                console.error(e);
             }
         };
     }, [mp3File, audioURL]);
@@ -57,9 +57,15 @@ export default function Canvas({mp3File, audioURL}: {mp3File: File; audioURL: st
         if (processedFileRef.current === mp3File) return;
 
         const reader = new FileReader();
+
+        // once the mp3 file is loaded the buffer array is read and visuals are controlled
         reader.onload = function (event: ProgressEvent<FileReader>) {
             console.log("YOOOOOO", event);
-            // const bufferArray = event.targ;
+            const arrayBuffer = event?.target?.result;
+            console.log(audioAnalyzer.fftSize, arrayBuffer);
+
+            audioAnalyzer.fftSize = 64;
+            // const dataArray = new Uint8Array();
         };
 
         return () => reader.readAsArrayBuffer(mp3File);
