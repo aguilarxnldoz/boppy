@@ -1,18 +1,17 @@
 import {useEffect, useRef} from "react";
 
 // this canvas element displays the visuals based on the values within the mp3 file
-export default function Canvas({mp3File, audioURL}: {mp3File: File; audioURL: string | undefined}) {
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const processedFileRef = useRef<File | null>(null);
-    const currentSong: HTMLAudioElement = new Audio(audioURL);
-    const audioContext = new AudioContext();
+export default function Canvas({audioURL}: {audioURL: string | undefined}) {
+    const canvasElementRef = useRef<HTMLCanvasElement | null>(null);
+    const audioElementRef = useRef<HTMLMediaElement | null>(null);
 
-    const audioSource: MediaElementAudioSourceNode | undefined = audioContext?.createMediaElementSource(currentSong);
-    const audioAnalyzer: AnalyserNode | undefined = audioContext?.createAnalyser();
+    const audioContextRef = useRef<AudioContext | null>(null);
+    const audioSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
+    const audioAnalyserRef = useRef<AnalyserNode | null>(null);
 
-    // sets the canvas dimensions
+    // resize canvas to window dimensions w/ HiDPI support
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas = canvasElementRef.current;
         if (!canvas) return;
 
         const resize = () => {
@@ -35,52 +34,43 @@ export default function Canvas({mp3File, audioURL}: {mp3File: File; audioURL: st
         return () => window.removeEventListener("resize", resize);
     }, []);
 
-    // gets the audio source (mp3 file) to the destination (to ur speakers);
+    // build the audio graph
     useEffect(() => {
-        audioSource?.connect(audioAnalyzer as AudioNode);
-        audioAnalyzer?.connect(audioContext?.destination as AudioNode);
+        if (!audioContextRef.current) {
+            audioContextRef.current = new AudioContext();
+            audioSourceRef.current = audioContextRef.current.createMediaElementSource(audioElementRef.current as HTMLMediaElement);
+            audioAnalyserRef.current = audioContextRef.current.createAnalyser();
 
-        void currentSong.play();
+            audioSourceRef.current.connect(audioAnalyserRef.current);
+            audioAnalyserRef.current.connect(audioContextRef.current.destination);
+        }
+
+        if (audioAnalyserRef.current) {
+            audioAnalyserRef.current.fftSize = 64;
+        }
 
         return () => {
-            try {
-                audioSource?.disconnect();
-                audioAnalyzer?.disconnect();
-            } catch (e) {
-                console.error(e);
+            console.log(audioContextRef.current);
+            console.log(audioSourceRef.current);
+            if (audioSourceRef.current && audioAnalyserRef.current) {
+                audioSourceRef.current.disconnect(audioAnalyserRef.current);
             }
         };
-    }, [mp3File, audioURL]);
+    }, [audioElementRef]);
 
-    // 🔥 reads the mp3 file and controls the visuals
-    useEffect(() => {
-        if (processedFileRef.current === mp3File) return;
-
-        const reader = new FileReader();
-
-        // once the mp3 file is loaded the buffer array is read and visuals are controlled
-        reader.onload = function (event: ProgressEvent<FileReader>) {
-            console.log("YOOOOOO", event);
-            const arrayBuffer = event?.target?.result;
-            console.log(audioAnalyzer.fftSize, arrayBuffer);
-
-            audioAnalyzer.fftSize = 64;
-            // const dataArray = new Uint8Array();
-        };
-
-        return () => reader.readAsArrayBuffer(mp3File);
-    }, [mp3File]);
+    useEffect(() => {});
 
     return (
         <>
             <canvas
                 id="visual-canvas"
                 className="w-full h-[80vh]"
-                ref={canvasRef}
+                ref={canvasElementRef}
             ></canvas>
             <audio
-                className="w-[75%] absolute top-1 justify-self-center"
+                className="w-[75%] absolute top-1 justify-self-center z-11"
                 src={audioURL}
+                ref={audioElementRef}
                 controls
             ></audio>
         </>

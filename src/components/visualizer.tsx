@@ -27,10 +27,7 @@ export default function Visualizer({mp3File}: {mp3File: File}) {
                     id="visual-displays"
                     className="w-full h-full absolute"
                 >
-                    <Canvas
-                        mp3File={mp3File}
-                        audioURL={audioURL}
-                    />
+                    <Canvas audioURL={audioURL} />
                 </div>
             </section>
         </>
