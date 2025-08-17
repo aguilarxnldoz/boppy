@@ -4,8 +4,11 @@ function App() {
     return (
         <>
             <Header />
-            <main className="main-view w-auto relative">
-                <div className="main-view relative m-auto">
+            <main className="main-view w-auto relative h-full max-h-[100vh]">
+                <div
+                    id="main-wrapper"
+                    className="relative m-auto h-full"
+                >
                     <UploadMP3 />
                 </div>
             </main>

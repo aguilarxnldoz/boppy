@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import Canvas from "./canvas";
+import BasicBar from "./visualizers/basic_bar";
 
 export default function Visualizer({mp3File}: {mp3File: File}) {
     const [audioURL, setAudioURL] = useState<string | undefined>(undefined);
@@ -27,7 +27,7 @@ export default function Visualizer({mp3File}: {mp3File: File}) {
                     id="visual-displays"
                     className="w-full h-full absolute"
                 >
-                    <Canvas audioURL={audioURL} />
+                    <BasicBar audioURL={audioURL} />
                 </div>
             </section>
         </>

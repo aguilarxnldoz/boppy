@@ -1,7 +1,8 @@
 import {useEffect, useRef} from "react";
+import TrackControls from "../track_controls/track_controls";
 
 // this canvas element displays the visuals based on the values within the mp3 file
-export default function Canvas({audioURL}: {audioURL: string | undefined}) {
+export default function BasicBar({audioURL}: {audioURL: string | undefined}) {
     const canvasElementRef = useRef<HTMLCanvasElement | null>(null);
     const audioElementRef = useRef<HTMLMediaElement | null>(null);
 
@@ -60,10 +61,10 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
 
             const analyser = audioAnalyserRef.current;
             if (analyser && !dataArrayRef.current) {
+                // total # of frequency datapoints (fftSize / 2);
                 const bufferLength: number = analyser.frequencyBinCount;
                 dataArrayRef.current = new Uint8Array(bufferLength);
 
-                // fftSize / 2 (the value is 32 in my case)
                 const barWidth: number = ((canvasElementRef.current?.width as number) / bufferLength) * 1.5;
 
                 // bar height is constantly changing as values from music track are playing
@@ -71,13 +72,13 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
 
                 const animate = () => {
                     // represent x-coordinate of each visual bar
-                    let visualBarXcoordinate = 0;
+                    let visualBarXcoordinate = 2;
                     ctx?.clearRect(0, 0, canvas?.width as number, canvas?.height as number);
                     analyser.getByteFrequencyData(dataArrayRef.current as Uint8Array<ArrayBuffer>);
 
                     for (let i: number = 0; i < bufferLength; i++) {
                         barHeight = dataArrayRef.current ? dataArrayRef.current[i] * 3 : 0;
-                        (ctx as CanvasRenderingContext2D).fillStyle = "white";
+                        (ctx as CanvasRenderingContext2D).fillStyle = "#15B2CE";
                         (ctx as CanvasRenderingContext2D).fillRect(visualBarXcoordinate, (canvas?.height as number) - barHeight, barWidth, barHeight);
 
                         visualBarXcoordinate += barWidth;
@@ -86,6 +87,7 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
                 };
                 animate();
             }
+            element.play();
         };
 
         return () => {
@@ -108,6 +110,7 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
                 ref={audioElementRef}
                 controls
             ></audio>
+            <TrackControls />
         </>
     );
 }

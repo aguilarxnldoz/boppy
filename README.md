@@ -1,6 +1,7 @@
 ## DISCLAIMER: PROJECT IN DEVELOPMENT
-- Core functionality works, but with very basic visualizer.
-- Implementing improved front-end and better visuals next.
+
+-   Core functionality works, but with very basic visualizer.
+-   Implementing improved front-end and better visuals next.
 
 # Boppy
 
