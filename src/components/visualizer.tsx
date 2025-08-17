@@ -20,7 +20,7 @@ export default function Visualizer({mp3File}: {mp3File: File}) {
         <>
             <section
                 id="visual-container"
-                className="w-auto mt-5"
+                className="w-auto mt-5 h-full"
             >
                 <h3 className="ml-5">Currently playing {mp3File.name.slice(0, -4)}</h3>
                 <div

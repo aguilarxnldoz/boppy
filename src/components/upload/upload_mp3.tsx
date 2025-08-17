@@ -8,7 +8,7 @@ export default function UploadMP3() {
 
     const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile: File | null = event.target.files && event.target.files[0] ? event.target.files[0] : null;
-        if (selectedFile === null) console.error("File could not be uploaded jitt!");
+        if (selectedFile === null) console.error("File could not be uploaded");
         setFile(selectedFile);
         setStep(2);
     };
