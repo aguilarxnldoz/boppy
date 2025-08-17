@@ -55,7 +55,7 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
             }
 
             if (audioAnalyserRef.current) {
-                audioAnalyserRef.current.fftSize = 64;
+                audioAnalyserRef.current.fftSize = 512;
             }
 
             const analyser = audioAnalyserRef.current;
@@ -64,7 +64,7 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
                 dataArrayRef.current = new Uint8Array(bufferLength);
 
                 // fftSize / 2 (the value is 32 in my case)
-                const barWidth: number = (canvasElementRef.current?.width as number) / bufferLength;
+                const barWidth: number = ((canvasElementRef.current?.width as number) / bufferLength) * 1.5;
 
                 // bar height is constantly changing as values from music track are playing
                 let barHeight: number;
@@ -79,6 +79,7 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
                         barHeight = dataArrayRef.current ? dataArrayRef.current[i] * 3 : 0;
                         (ctx as CanvasRenderingContext2D).fillStyle = "white";
                         (ctx as CanvasRenderingContext2D).fillRect(visualBarXcoordinate, (canvas?.height as number) - barHeight, barWidth, barHeight);
+
                         visualBarXcoordinate += barWidth;
                     }
                     requestAnimationFrame(animate);
