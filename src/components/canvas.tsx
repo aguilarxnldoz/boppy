@@ -76,7 +76,7 @@ export default function Canvas({audioURL}: {audioURL: string | undefined}) {
                     analyser.getByteFrequencyData(dataArrayRef.current as Uint8Array<ArrayBuffer>);
 
                     for (let i: number = 0; i < bufferLength; i++) {
-                        barHeight = dataArrayRef.current ? dataArrayRef.current[i] * 2.5 : 0;
+                        barHeight = dataArrayRef.current ? dataArrayRef.current[i] * 3 : 0;
                         (ctx as CanvasRenderingContext2D).fillStyle = "white";
                         (ctx as CanvasRenderingContext2D).fillRect(visualBarXcoordinate, (canvas?.height as number) - barHeight, barWidth, barHeight);
                         visualBarXcoordinate += barWidth;
