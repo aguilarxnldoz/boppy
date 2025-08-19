@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, type MutableRefObject} from "react";
 import TrackControls from "../track_controls/track_controls";
 
 // this canvas element displays the visuals based on the values within the mp3 file
@@ -108,9 +108,8 @@ export default function BasicBar({audioURL}: {audioURL: string | undefined}) {
                 className="w-[75%] absolute top-1 justify-self-center z-11"
                 src={audioURL}
                 ref={audioElementRef}
-                controls
             ></audio>
-            <TrackControls />
+            <TrackControls audioElementReference={audioElementRef} />
         </>
     );
 }
