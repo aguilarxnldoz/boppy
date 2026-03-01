@@ -4,10 +4,10 @@ function App() {
     return (
         <>
             <Header />
-            <main className="main-view w-auto relative h-full max-h-[100vh]">
+            <main className="relative h-screen w-full">
                 <div
                     id="main-wrapper"
-                    className="relative m-auto h-full"
+                    className="h-full w-full"
                 >
                     <UploadMP3 />
                 </div>
