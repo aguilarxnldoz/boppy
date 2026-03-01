@@ -71,7 +71,7 @@ export default function BasicBar({audioURL, onUploadNew, onPlayNext, hasNext}: B
                 const bufferLength: number = analyser.frequencyBinCount;
                 dataArrayRef.current = new Uint8Array(bufferLength);
 
-                const barWidth: number = ((canvasElementRef.current?.width as number) / bufferLength) * 1.5;
+                const barWidth: number = ((canvasElementRef.current?.width as number) / bufferLength) * 2.6;
 
                 // bar height is constantly changing as values from music track are playing
                 let barHeight: number;
@@ -107,7 +107,7 @@ export default function BasicBar({audioURL, onUploadNew, onPlayNext, hasNext}: B
         <>
             <canvas
                 id="visual-canvas"
-                className="w-full h-full"
+                className="fixed inset-0"
                 ref={canvasElementRef}
             ></canvas>
             <audio
@@ -115,8 +115,8 @@ export default function BasicBar({audioURL, onUploadNew, onPlayNext, hasNext}: B
                 src={audioURL}
                 ref={audioElementRef}
             ></audio>
-            <TrackControls 
-                audioElementReference={audioElementRef} 
+            <TrackControls
+                audioElementReference={audioElementRef}
                 onUploadNew={onUploadNew}
                 onPlayNext={onPlayNext}
                 hasNext={hasNext}
