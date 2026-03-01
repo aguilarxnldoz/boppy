@@ -25,19 +25,14 @@ export default function Visualizer({mp3File, onUploadNew, onPlayNext, hasNext}: 
         <>
             <section
                 id="visual-container"
-                className="w-full h-full"
+                className="fixed inset-0"
             >
-                <div
-                    id="visual-displays"
-                    className="w-full h-full absolute inset-0"
-                >
-                    <BasicBar 
-                        audioURL={audioURL} 
-                        onUploadNew={onUploadNew}
-                        onPlayNext={onPlayNext}
-                        hasNext={hasNext}
-                    />
-                </div>
+                <BasicBar
+                    audioURL={audioURL}
+                    onUploadNew={onUploadNew}
+                    onPlayNext={onPlayNext}
+                    hasNext={hasNext}
+                />
             </section>
         </>
     );
