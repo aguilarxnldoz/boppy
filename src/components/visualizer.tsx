@@ -1,15 +1,20 @@
 import {useState, useEffect} from "react";
 import BasicBar from "./visualizers/basic_bar";
 
-export default function Visualizer({mp3File}: {mp3File: File}) {
+interface VisualizerProps {
+    mp3File: File;
+    onUploadNew?: () => void;
+    onPlayNext?: () => void;
+    hasNext?: boolean;
+}
+
+export default function Visualizer({mp3File, onUploadNew, onPlayNext, hasNext}: VisualizerProps) {
     const [audioURL, setAudioURL] = useState<string | undefined>(undefined);
 
     useEffect(() => {
         if (mp3File) {
-            // audio url to insert into the html audio element
             const url = URL.createObjectURL(mp3File);
             setAudioURL(url);
-            // audioContext.current = new (window.AudioContext || window.webkitAudioContext)();
             return () => URL.revokeObjectURL(url);
         } else {
             setAudioURL(undefined);
@@ -20,14 +25,18 @@ export default function Visualizer({mp3File}: {mp3File: File}) {
         <>
             <section
                 id="visual-container"
-                className="w-auto mt-5 h-full"
+                className="w-full h-full"
             >
-                <h3 className="ml-5">Currently playing {mp3File.name.slice(0, -4)}</h3>
                 <div
                     id="visual-displays"
-                    className="w-full h-full absolute"
+                    className="w-full h-full absolute inset-0"
                 >
-                    <BasicBar audioURL={audioURL} />
+                    <BasicBar 
+                        audioURL={audioURL} 
+                        onUploadNew={onUploadNew}
+                        onPlayNext={onPlayNext}
+                        hasNext={hasNext}
+                    />
                 </div>
             </section>
         </>

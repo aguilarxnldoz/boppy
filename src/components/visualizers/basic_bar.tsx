@@ -1,8 +1,14 @@
-import {useEffect, useRef, type MutableRefObject} from "react";
+import {useEffect, useRef} from "react";
 import TrackControls from "../track_controls/track_controls";
 
-// this canvas element displays the visuals based on the values within the mp3 file
-export default function BasicBar({audioURL}: {audioURL: string | undefined}) {
+interface BasicBarProps {
+    audioURL: string | undefined;
+    onUploadNew?: () => void;
+    onPlayNext?: () => void;
+    hasNext?: boolean;
+}
+
+export default function BasicBar({audioURL, onUploadNew, onPlayNext, hasNext}: BasicBarProps) {
     const canvasElementRef = useRef<HTMLCanvasElement | null>(null);
     const audioElementRef = useRef<HTMLMediaElement | null>(null);
 
@@ -101,15 +107,20 @@ export default function BasicBar({audioURL}: {audioURL: string | undefined}) {
         <>
             <canvas
                 id="visual-canvas"
-                className="w-full"
+                className="w-full h-full"
                 ref={canvasElementRef}
             ></canvas>
             <audio
-                className="w-[75%] absolute top-1 justify-self-center z-11"
+                className="hidden"
                 src={audioURL}
                 ref={audioElementRef}
             ></audio>
-            <TrackControls audioElementReference={audioElementRef} />
+            <TrackControls 
+                audioElementReference={audioElementRef} 
+                onUploadNew={onUploadNew}
+                onPlayNext={onPlayNext}
+                hasNext={hasNext}
+            />
         </>
     );
 }
