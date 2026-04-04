@@ -1,16 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Righteous&display=swap");
 @import "tailwindcss";
 
 :root {
-    --bg-colour: #242424;
-    --main-font: "Be Vietnam Pro", sans-serif;
+    --bg-colour: #0F172A;
+    --primary-color: #15B2CE;
+    --main-font: "Poppins", sans-serif;
+    --heading-font: "Righteous", cursive;
 
     font-family: var(--main-font);
     line-height: 1.5;
     font-weight: 400;
 
     color-scheme: dark;
-    color: rgba(255, 255, 255, 0.87);
+    color: #F8FAFC;
     background-color: var(--bg-colour);
 
     font-synthesis: none;
@@ -29,6 +31,10 @@ body {
     font-family: var(--main-font);
     background-color: var(--bg-colour);
     overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font);
 }
 
 #visual-canvas {
